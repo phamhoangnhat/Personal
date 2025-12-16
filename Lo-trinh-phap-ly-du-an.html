@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vietnam Legal Roadmap - Neumorphism (Light Only)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neu: {
+                            base: '#e0e5ec',
+                            text: '#4a5568',
+                            textLight: '#a0aec0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Be Vietnam Pro"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        :root {
+            /* Fixed Light Mode Variables */
+            --bg-color: #e0e5ec;
+            --text-main: #4a5568;
+            --shadow-light: -9px -9px 16px #ffffff;
+            --shadow-dark: 9px 9px 16px #a3b1c6;
+            --inset-light: inset -6px -6px 10px #ffffff;
+            --inset-dark: inset 6px 6px 10px #a3b1c6;
+        }
+
+        body { 
+            font-family: 'Be Vietnam Pro', sans-serif; 
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- NEUMORPHIC COMPONENTS --- */
+        .neu-card {
+            background-color: var(--bg-color);
+            box-shadow: var(--shadow-dark), var(--shadow-light);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent; 
+        }
+        
+        .neu-card-interactive:hover {
+            transform: translateY(-4px);
+            box-shadow: 12px 12px 20px rgba(163, 177, 198, 0.6), -12px -12px 20px rgba(255,255,255, 0.8);
+        }
+
+        .neu-card-interactive:active, .neu-pressed {
+            box-shadow: var(--inset-dark), var(--inset-light);
+            transform: translateY(0);
+        }
+
+        .neu-groove {
+            background-color: var(--bg-color);
+            box-shadow: var(--inset-dark), var(--inset-light);
+            border-radius: 99px;
+        }
+
+        .neu-btn {
+            background-color: var(--bg-color);
+            box-shadow: var(--shadow-dark), var(--shadow-light);
+            transition: all 0.2s ease;
+            color: var(--text-main);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .neu-btn:hover {
+            transform: scale(1.05);
+            color: #3b82f6; /* Highlight color on hover */
+        }
+        .neu-btn:active {
+            box-shadow: var(--inset-dark), var(--inset-light);
+            transform: scale(0.95);
+        }
+
+        .neu-text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .modal-overlay {
+            background-color: rgba(224, 229, 236, 0.85); /* Matches bg color */
+            backdrop-filter: blur(8px);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { 
+            background-color: #cbd5e0; 
+            border-radius: 10px; 
+            border: 2px solid var(--bg-color);
+        }
+
+        /* Timeline Nodes */
+        .timeline-node-neu {
+            width: 16px; height: 16px; border-radius: 50%;
+            background: var(--bg-color);
+            border: 2px solid transparent;
+            box-shadow: 3px 3px 6px rgba(163,177,198,0.6), -3px -3px 6px #ffffff;
+            z-index: 10;
+        }
+        
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Navbar -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur-sm transition-all duration-300" id="main-header">
+        <div class="max-w-5xl mx-auto px-6 h-24 flex items-center justify-between">
+            <div class="flex items-center gap-4 group cursor-pointer">
+                <div class="w-14 h-14 rounded-2xl neu-card flex items-center justify-center text-blue-500 font-extrabold text-xl group-hover:scale-105 transition-transform duration-300">
+                    VN
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-slate-700 tracking-wide neu-text-shadow">PHÁP LÝ DỰ ÁN</h1>
+                    <p class="text-[10px] text-slate-500 font-semibold tracking-[0.2em] uppercase">Light Edition</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex gap-4">
+                    <div class="neu-card px-4 py-2 rounded-full flex items-center gap-2 text-xs font-bold text-blue-500">
+                        <span class="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_5px_currentColor]"></span> Bắt buộc
+                    </div>
+                    <div class="neu-card px-4 py-2 rounded-full flex items-center gap-2 text-xs font-bold text-orange-500">
+                        <span class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_5px_currentColor]"></span> Có điều kiện
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-4xl mx-auto px-6 pt-36 pb-20 w-full relative z-10">
+        
+        <div class="text-center mb-20">
+            <h2 class="text-3xl md:text-5xl font-black text-slate-700 mb-6 tracking-tight neu-text-shadow gs-title leading-tight">
+                LỘ TRÌNH XÂY DỰNG
+            </h2>
+            <div class="neu-card inline-block px-8 py-6 rounded-3xl mx-auto gs-subtitle">
+                <p class="text-slate-500 text-sm md:text-base font-medium leading-relaxed max-w-xl">
+                    Hệ thống hóa quy trình pháp lý dự án tại Việt Nam theo <span class="text-blue-500 font-bold">Quy chuẩn mới nhất</span>. 
+                    Trải nghiệm thị giác chân thực phong cách Soft UI.
+                </p>
+            </div>
+        </div>
+
+        <div id="roadmap-root" class="relative pl-2 md:pl-0">
+            <!-- Content injected via JS -->
+        </div>
+
+    </main>
+
+    <!-- NEUMORPHIC MODAL -->
+    <div id="modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 modal-overlay transition-opacity duration-500" onclick="closeModal()"></div>
+        
+        <div class="relative w-full max-w-5xl h-[85vh] neu-card flex flex-col overflow-hidden modal-content transform scale-95 opacity-0 transition-all duration-500">
+            
+            <div id="modal-accent-line" class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-500 opacity-50"></div>
+
+            <div class="px-8 py-6 flex justify-between items-start z-10 shrink-0">
+                <div class="flex-1 pr-8">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div id="m-id-box" class="neu-groove px-3 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center transition-colors">
+                            ID: <span id="m-id" class="ml-1"></span>
+                        </div>
+                        <span id="m-stage" class="text-xs font-bold text-slate-400 uppercase tracking-wide"></span>
+                    </div>
+                    <h2 id="m-title" class="text-2xl md:text-3xl font-bold text-slate-700 neu-text-shadow"></h2>
+                </div>
+                <button onclick="closeModal()" class="neu-btn w-12 h-12 rounded-full text-slate-400 hover:text-red-500 hover:rotate-90 transition-all">
+                    <i class="ph ph-x text-xl font-bold"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-8 grid grid-cols-1 lg:grid-cols-12 gap-10 custom-scroll">
+                
+                <div class="lg:col-span-7 space-y-8">
+                    <div class="gs-modal-item">
+                        <div class="neu-card p-6 !rounded-3xl border-l-4" id="m-desc-box">
+                             <h4 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">Mô tả chi tiết</h4>
+                             <p id="m-desc" class="text-slate-600 leading-7 text-justify text-base"></p>
+                        </div>
+                    </div>
+
+                    <!-- Info Grid: Legal, Agency, Time -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 gs-modal-item">
+                        <!-- Legal -->
+                        <div class="neu-card p-5 !rounded-2xl flex flex-col justify-center items-center text-center group hover:scale-[1.02] transition-transform">
+                            <div class="w-10 h-10 rounded-full neu-groove flex items-center justify-center mb-3 text-xl" id="m-icon-legal">
+                                <i class="ph ph-gavel"></i>
+                            </div>
+                            <span class="text-[10px] uppercase font-bold text-slate-400 mb-1">Căn cứ pháp lý</span>
+                            <span id="m-legal" class="text-sm font-bold line-clamp-2"></span>
+                        </div>
+                        
+                        <!-- Agency -->
+                        <div class="neu-card p-5 !rounded-2xl flex flex-col justify-center items-center text-center group hover:scale-[1.02] transition-transform">
+                            <div class="w-10 h-10 rounded-full neu-groove flex items-center justify-center mb-3 text-xl" id="m-icon-agency">
+                                <i class="ph ph-buildings"></i>
+                            </div>
+                            <span class="text-[10px] uppercase font-bold text-slate-400 mb-1">Cơ quan thụ lý</span>
+                            <span id="m-agency" class="text-sm font-bold text-slate-700"></span>
+                        </div>
+
+                         <!-- Time (Full Width) -->
+                         <div class="sm:col-span-2 neu-card p-4 !rounded-2xl flex items-center justify-between gap-4 group hover:scale-[1.01] transition-transform border-l-4 border-slate-300">
+                             <div class="flex items-center gap-4 pl-2">
+                                <div class="w-10 h-10 rounded-full neu-groove flex items-center justify-center text-xl text-slate-500">
+                                    <i class="ph-fill ph-clock"></i>
+                                </div>
+                                <div class="text-left">
+                                    <span class="block text-[10px] uppercase font-bold text-slate-400">Thời gian dự kiến</span>
+                                    <span id="m-time" class="text-sm font-bold text-slate-700"></span>
+                                </div>
+                             </div>
+                             <div class="pr-2 hidden sm:block">
+                                 <span class="text-xs text-slate-400 font-medium bg-slate-200 px-2 py-1 rounded">Theo quy định</span>
+                             </div>
+                        </div>
+                    </div>
+
+                    <div class="gs-modal-item pt-4">
+                        <h4 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-6 pl-2 border-l-2 border-slate-300">Quy trình thực hiện</h4>
+                        <div id="m-steps" class="space-y-4 pl-2"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 space-y-8">
+                    <div class="neu-card p-1 rounded-3xl gs-modal-item relative overflow-hidden">
+                        <div class="absolute inset-0 z-0 opacity-10" id="m-output-bg"></div>
+                        <div class="p-6 relative z-10">
+                            <h4 class="text-xs font-extrabold uppercase tracking-widest mb-4 flex items-center gap-2" id="m-output-title">
+                                <i class="ph-fill ph-check-circle text-lg"></i> Kết quả đầu ra
+                            </h4>
+                            <ul id="m-outputs" class="space-y-3"></ul>
+                        </div>
+                    </div>
+
+                    <div class="neu-card p-6 rounded-3xl gs-modal-item">
+                        <h4 class="text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <i class="ph-fill ph-folder-open text-lg"></i> Hồ sơ yêu cầu
+                        </h4>
+                        <ul id="m-docs" class="space-y-3"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- DATA SOURCE ---
+        const legalData = [
+            {
+                phase: "Giai đoạn 1: Chuẩn bị đầu tư",
+                accent: "blue", // UI Accent
+                tasks: [
+                    {
+                        id: "1.1", title: "Chấp thuận chủ trương đầu tư", isConditional: true,
+                        time: "Khoảng 35 ngày làm việc",
+                        desc: "Thủ tục pháp lý đầu tiên xác lập quyền đầu tư. Lưu ý: Chỉ áp dụng với dự án thuộc diện quy định tại Điều 30–32 Luật Đầu tư 2020 (nhà ở, KĐT, dự án vốn lớn...).",
+                        legal: "Luật Đầu tư 2020 (Điều 30-32)", agency: "Sở KHĐT / UBND Tỉnh",
+                        steps: ["Nộp hồ sơ đề xuất dự án", "Lấy ý kiến thẩm định các Sở", "UBND ra Quyết định chấp thuận"],
+                        docs: ["Văn bản đề nghị thực hiện dự án", "Hồ sơ năng lực tài chính", "Đề xuất dự án đầu tư"],
+                        outputs: ["Quyết định Chấp thuận chủ trương đầu tư"]
+                    },
+                    {
+                        id: "1.2", title: "Quy hoạch chi tiết 1/500", isConditional: true,
+                        time: "Khoảng 25 - 40 ngày làm việc",
+                        desc: "Xác định chỉ tiêu kiến trúc (Mật độ, tầng cao). Lưu ý: Không áp dụng với dự án cải tạo, sửa chữa không làm thay đổi QH hoặc dự án nhỏ (<5ha) có thể lập TMB thay thế.",
+                        legal: "Luật Quy hoạch đô thị 2009", agency: "Sở QHKT / UBND Quận/Huyện",
+                        steps: ["Khảo sát địa hình", "Lập nhiệm vụ quy hoạch", "Lập đồ án quy hoạch", "Lấy ý kiến dân cư", "Phê duyệt"],
+                        docs: ["Bản đồ địa hình 1/500", {t: "Quyết định Chủ trương", ref: "1.1"}, "Thuyết minh QH & Bản vẽ"],
+                        outputs: ["Quyết định Phê duyệt QH 1/500"]
+                    }
+                ]
+            },
+            {
+                phase: "Giai đoạn 2: Lập Dự án (Thiết kế cơ sở)",
+                accent: "indigo", // UI Accent
+                tasks: [
+                    {
+                        id: "2.1", title: "Thẩm duyệt PCCC (Cơ sở)", isConditional: true, tag: "Song song",
+                        time: "5 - 10 ngày làm việc",
+                        desc: "Thẩm duyệt giải pháp an toàn cháy nổ cho thiết kế cơ sở. Điều kiện tiên quyết để được thẩm định dự án tại Sở Xây dựng.",
+                        legal: "NĐ 136/2020, NĐ 50/2024", agency: "Phòng Cảnh sát PCCC (PC07)",
+                        steps: ["Lập hồ sơ thiết kế PCCC", "Nộp Công an PCCC", "Kiểm tra & ra văn bản"],
+                        docs: [{t: "QĐ Quy hoạch 1/500", ref: "1.2"}, "Thuyết minh & Bản vẽ PCCC"],
+                        outputs: ["Giấy chứng nhận thẩm duyệt thiết kế PCCC"]
+                    },
+                    {
+                        id: "2.2", title: "Đánh giá tác động môi trường (ĐTM)", isConditional: true, tag: "Song song",
+                        time: "30 - 45 ngày làm việc",
+                        desc: "Đánh giá tác động của dự án đến môi trường xung quanh. Phải hoàn thành trước khi phê duyệt dự án.",
+                        legal: "Luật BVMT 2020", agency: "Sở TNMT / Bộ TNMT",
+                        steps: ["Tham vấn cộng đồng", "Họp hội đồng thẩm định", "Chỉnh sửa & Phê duyệt"],
+                        docs: [{t: "Quyết định Chủ trương", ref: "1.1"}, "Báo cáo ĐTM"],
+                        outputs: ["Quyết định phê duyệt ĐTM"]
+                    },
+                    {
+                        id: "2.3", title: "Thẩm tra TKCS (Độc lập)", tag: "Tư vấn",
+                        time: "15 - 20 ngày (Tùy quy mô)",
+                        desc: "CĐT thuê đơn vị tư vấn độc lập để kiểm tra kỹ thuật, tiêu chuẩn. Trách nhiệm: CĐT thuê và phối hợp giải trình.",
+                        legal: "NĐ 15/2021", agency: "Đơn vị tư vấn Thẩm tra",
+                        steps: ["Gửi hồ sơ TKCS", "Rà soát tiêu chuẩn/quy chuẩn", "Báo cáo lỗi & khắc phục", "Phát hành báo cáo"],
+                        docs: ["Hồ sơ Thiết kế cơ sở"],
+                        outputs: ["Báo cáo kết quả Thẩm tra TKCS"]
+                    },
+                    {
+                        id: "2.4", title: "Thẩm định Báo cáo NCKT", isMerge: true,
+                        time: "20 - 30 ngày làm việc (Tùy nhóm)",
+                        desc: "Sở Xây dựng thẩm định sự phù hợp của các hồ sơ thành phần (PCCC, Môi trường, Thẩm tra). Trách nhiệm: Sở XD thẩm định chính / CĐT bổ sung hồ sơ.",
+                        legal: "NĐ 15/2021, NĐ 35/2023", agency: "Sở Xây dựng / Bộ Xây dựng",
+                        steps: ["Nộp hồ sơ một cửa", "Thẩm định chuyên môn", "Ra thông báo kết quả"],
+                        docs: ["Tờ trình thẩm định", "Hồ sơ TKCS", {t: "Báo cáo Thẩm tra", ref: "2.3"}, {t: "Văn bản PCCC", ref: "2.1"}, {t: "QĐ ĐTM", ref: "2.2"}],
+                        outputs: ["Thông báo KQ thẩm định Báo cáo NCKT (Căn cứ phê duyệt DA)"]
+                    },
+                    {
+                        id: "2.5", title: "Phê duyệt Dự án Đầu tư",
+                        time: "5 - 7 ngày (Nội bộ)",
+                        desc: "Chủ đầu tư ra Quyết định phê duyệt dự án chính thức dựa trên kết quả thẩm định của Sở Xây dựng.",
+                        legal: "Luật XD 2014 (Điều 60)", agency: "Chủ đầu tư (Nội bộ)",
+                        steps: ["Lập tờ trình nội bộ", "Cấp có thẩm quyền ký Quyết định"],
+                        docs: [{t: "Thông báo KQ thẩm định Sở XD", ref: "2.4"}],
+                        outputs: ["Quyết định Phê duyệt Dự án Đầu tư"]
+                    }
+                ]
+            },
+            {
+                phase: "Giai đoạn 3: Thiết kế Thi công & GPXD",
+                accent: "emerald", // UI Accent
+                tasks: [
+                    {
+                        id: "3.1", title: "Thiết kế BVTC & Thẩm tra",
+                        time: "15 - 30 ngày (Tùy quy mô)",
+                        desc: "Triển khai chi tiết kỹ thuật thi công. Chủ đầu tư tổ chức thẩm định và phê duyệt (sau khi có thẩm tra độc lập).",
+                        legal: "NĐ 15/2021 (Điều 35)", agency: "Chủ đầu tư",
+                        steps: ["Thiết kế chi tiết", "Thẩm tra độc lập", "CĐT phê duyệt"],
+                        docs: ["Hồ sơ TKBVTC", "Dự toán chi tiết"],
+                        outputs: ["Quyết định phê duyệt Thiết kế bản vẽ thi công"]
+                    },
+                    {
+                        id: "3.2", title: "Cấp Giấy phép Xây dựng",
+                        time: "20 ngày làm việc",
+                        desc: "Thủ tục cuối cùng để được phép khởi công. Lưu ý các trường hợp MIỄN GPXD (Dự án KĐT có QH 1/500, đã thẩm định TKCS...).",
+                        legal: "Luật Xây dựng 2014 (Điều 89-102)", agency: "Sở Xây dựng",
+                        steps: ["Nộp hồ sơ", "Kiểm tra thực địa", "Cấp Giấy phép"],
+                        docs: [
+                            "Đơn đề nghị cấp GPXD", "Giấy tờ đất", 
+                            {t: "QĐ Phê duyệt dự án", ref: "2.5"}, 
+                            {t: "QĐ Phê duyệt TKBVTC", ref: "3.1"},
+                            {t: "Văn bản PCCC", ref: "2.1"}
+                        ],
+                        outputs: ["Giấy phép Xây dựng (Điều kiện khởi công theo Luật XD)"]
+                    }
+                ]
+            }
+        ];
+
+        // --- COLOR MAPPING ---
+        const colors = {
+            blue: { text: 'text-blue-500', hover: 'group-hover:text-blue-600', node: 'group-hover:bg-blue-500', shadow: 'group-hover:shadow-[0_0_10px_#3b82f6]', border: 'border-blue-400' },
+            indigo: { text: 'text-indigo-500', hover: 'group-hover:text-indigo-600', node: 'group-hover:bg-indigo-500', shadow: 'group-hover:shadow-[0_0_10px_#6366f1]', border: 'border-indigo-400' },
+            emerald: { text: 'text-emerald-500', hover: 'group-hover:text-emerald-600', node: 'group-hover:bg-emerald-500', shadow: 'group-hover:shadow-[0_0_10px_#10b981]', border: 'border-emerald-400' }
+        };
+
+        // --- RENDER LOGIC ---
+        function render() {
+            const root = document.getElementById('roadmap-root');
+            root.innerHTML = '';
+            
+            gsap.from("#main-header", { y: -80, opacity: 0, duration: 1, ease: "power3.out" });
+            gsap.from(".gs-title", { y: 30, opacity: 0, duration: 1, delay: 0.2, ease: "power3.out" });
+            gsap.from(".gs-subtitle", { scale: 0.9, opacity: 0, duration: 0.8, delay: 0.4, ease: "back.out(1.7)" });
+
+            legalData.forEach((p, index) => {
+                const isLastP = index === legalData.length - 1;
+                const c = colors[p.accent];
+                
+                const phaseDiv = document.createElement('div');
+                phaseDiv.className = "mb-16";
+                
+                phaseDiv.innerHTML = `
+                    <div class="flex items-center gap-6 mb-12 reveal-phase">
+                        <div class="neu-card px-6 py-3 rounded-full ${c.text} font-bold uppercase text-xs tracking-[0.2em] border border-transparent">
+                            ${p.phase}
+                        </div>
+                        <div class="flex-1 h-2 neu-groove opacity-50"></div>
+                    </div>
+                    
+                    <div class="relative pl-6 sm:pl-10 border-l-4 border-transparent ml-4 sm:ml-6">
+                        <div class="absolute left-0 top-0 bottom-0 w-2 neu-groove -ml-1 opacity-60 ${isLastP ? 'h-full' : ''}"></div>
+                        <div class="tasks-wrapper space-y-10"></div>
+                    </div>
+                `;
+
+                const tasksWrapper = phaseDiv.querySelector('.tasks-wrapper');
+
+                p.tasks.forEach((t) => {
+                    const badge = t.isConditional 
+                        ? `<span class="tag-orange text-[10px] font-bold uppercase tracking-wider ml-auto">Có điều kiện</span>` 
+                        : `<span class="tag-blue text-[10px] font-bold uppercase tracking-wider ml-auto">Bắt buộc</span>`;
+                    
+                    const tag = t.tag ? `<span class="text-[10px] font-bold text-slate-400 bg-slate-200/50 px-2 py-0.5 rounded ml-2 border border-transparent">${t.tag}</span>` : '';
+                    
+                    const card = document.createElement('div');
+                    card.className = "relative task-item-reveal group";
+                    
+                    const nodeHtml = `<div class="absolute -left-[45px] sm:-left-[61px] top-8 timeline-node-neu transition-all duration-300 ${c.node} ${c.shadow}"></div>`;
+
+                    const contentHtml = `
+                        <div onclick="openModal('${t.id}')" class="neu-card neu-card-interactive p-6 sm:p-8 cursor-pointer relative overflow-hidden">
+                            ${t.isMerge ? `<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-${p.accent}-400 to-${p.accent}-600"></div>` : ''}
+                            
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-xl neu-groove flex items-center justify-center font-mono font-bold text-slate-400 text-sm flex-none group-hover:${c.text} transition-colors">
+                                        ${t.id}
+                                    </div>
+                                    <h3 class="font-bold text-lg sm:text-xl text-slate-700 ${c.hover} transition-colors line-clamp-1">${t.title}</h3>
+                                </div>
+                                <div class="flex items-center gap-2">${badge}${tag}</div>
+                            </div>
+                            
+                            <p class="text-sm text-slate-500 font-medium leading-relaxed pl-0 sm:pl-16 pr-8 text-justify line-clamp-2">
+                                ${t.desc}
+                            </p>
+
+                            <!-- Mini Time Indicator -->
+                            <div class="pl-0 sm:pl-16 mt-3 flex items-center gap-2 text-xs font-semibold text-slate-400/80">
+                                <i class="ph-fill ph-clock"></i>
+                                <span>${t.time}</span>
+                            </div>
+
+                            <div class="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 transform translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                                <div class="w-10 h-10 rounded-full neu-btn ${c.text}">
+                                    <i class="ph-bold ph-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    card.innerHTML = nodeHtml + contentHtml;
+                    tasksWrapper.appendChild(card);
+                });
+
+                root.appendChild(phaseDiv);
+            });
+
+            gsap.utils.toArray('.reveal-phase').forEach(item => {
+                gsap.from(item, {
+                    opacity: 0, x: -30, duration: 0.8, ease: "power2.out",
+                    scrollTrigger: { trigger: item, start: "top 85%" }
+                });
+            });
+
+            gsap.utils.toArray('.task-item-reveal').forEach((item) => {
+                gsap.from(item, {
+                    opacity: 0, y: 50, scale: 0.95, duration: 0.6, ease: "back.out(1.2)",
+                    scrollTrigger: { trigger: item, start: "top 90%" }
+                });
+            });
+        }
+
+        // --- MODAL LOGIC ---
+        function findTask(id) {
+            for(let p of legalData) {
+                for(let t of p.tasks) {
+                    if(t.id === id) return { ...t, phaseTitle: p.phase, accent: p.accent };
+                }
+            }
+            return null;
+        }
+
+        function openModal(id) {
+            const d = findTask(id);
+            if(!d) return;
+
+            const c = colors[d.accent]; // Get colors based on phase accent
+
+            document.getElementById('m-id').innerText = d.id;
+            document.getElementById('m-stage').innerText = d.phaseTitle;
+            document.getElementById('m-title').innerText = d.title;
+            document.getElementById('m-desc').innerText = d.desc;
+            document.getElementById('m-legal').innerText = d.legal;
+            document.getElementById('m-agency').innerText = d.agency;
+            document.getElementById('m-time').innerText = d.time;
+            
+            // Dynamic Coloring
+            const legalText = document.getElementById('m-legal');
+            legalText.className = `text-sm font-bold line-clamp-2 ${c.text}`;
+            
+            document.getElementById('m-icon-legal').className = `w-10 h-10 rounded-full neu-groove flex items-center justify-center mb-3 text-xl ${c.text}`;
+            document.getElementById('m-icon-agency').className = `w-10 h-10 rounded-full neu-groove flex items-center justify-center mb-3 text-xl text-orange-500`;
+            
+            document.getElementById('m-desc-box').className = `neu-card p-6 !rounded-3xl border-l-4 ${c.border}`;
+            document.getElementById('m-id-box').className = `neu-groove px-3 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center transition-colors ${c.text}`;
+            
+            // Output Box Styling
+            document.getElementById('m-output-bg').className = `absolute inset-0 z-0 opacity-10 bg-${d.accent}-500`;
+            document.getElementById('m-output-title').className = `text-xs font-extrabold uppercase tracking-widest mb-4 flex items-center gap-2 text-${d.accent}-600`;
+
+            document.getElementById('m-steps').innerHTML = d.steps.map((s,i) => `
+                <div class="flex items-start gap-4 mb-4 last:mb-0">
+                    <div class="w-8 h-8 rounded-full neu-btn flex-none text-xs font-bold shadow-none border border-slate-200 ${c.text}">${i+1}</div>
+                    <p class="text-sm font-medium text-slate-600 pt-1.5">${s}</p>
+                </div>
+            `).join('');
+
+            document.getElementById('m-docs').innerHTML = d.docs.map(doc => {
+                const text = typeof doc === 'string' ? doc : doc.t;
+                const ref = (typeof doc === 'object' && doc.ref) 
+                    ? `<span onclick="openModal('${doc.ref}')" class="ml-auto text-[10px] font-bold text-white bg-slate-400 px-2 py-1 rounded-md cursor-pointer hover:bg-slate-500 transition-colors shadow-sm">Xem ${doc.ref}</span>` 
+                    : '';
+                return `
+                <li class="neu-groove px-4 py-3 rounded-xl flex items-center justify-between gap-3 text-sm text-slate-600 font-medium">
+                    <div class="flex items-center gap-3">
+                        <i class="ph-fill ph-file-text text-slate-400"></i> ${text}
+                    </div>
+                    ${ref}
+                </li>`;
+            }).join('');
+
+            document.getElementById('m-outputs').innerHTML = d.outputs.map(o => `
+                <li class="flex items-start gap-3">
+                    <i class="ph-fill ph-check-circle text-lg mt-0.5 flex-none text-${d.accent}-500"></i>
+                    <span class="text-sm font-bold text-${d.accent}-700">${o}</span>
+                </li>
+            `).join('');
+
+            const modal = document.getElementById('modal');
+            const content = modal.querySelector('.modal-content');
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            gsap.to(modal.querySelector('.modal-overlay'), { opacity: 1, duration: 0.3 });
+            gsap.to(content, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.2)" });
+            
+            gsap.fromTo(".gs-modal-item", 
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.4, stagger: 0.05, delay: 0.2 }
+            );
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            const content = modal.querySelector('.modal-content');
+            
+            gsap.to(content, { opacity: 0, scale: 0.95, duration: 0.3, ease: "power2.in" });
+            gsap.to(modal.querySelector('.modal-overlay'), { 
+                opacity: 0, duration: 0.3, 
+                onComplete: () => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        window.onload = render;
+
+    </script>
+</body>
+</html>
